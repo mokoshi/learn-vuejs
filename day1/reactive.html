@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/vue"></script>
+  <script
+    src="http://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+  <div>
+    <div id="cnt"></div>
+    <button onclick="data.cnt += 1">+1</button>
+  </div>
+  <script>
+    const data = {
+      _cnt: 0,
+      get cnt() {
+        return this._cnt
+      },
+      set cnt(v) {
+        this._cnt = v
+        update()
+      }
+    }
+    function update() {
+      $("#cnt").html(data.cnt)
+    }
+  </script>
+</body>
+</html>

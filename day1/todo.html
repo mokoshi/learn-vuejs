@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <form @submit.prevent="addNewItem">
+      <label>
+        <input v-model="newItem">
+        <input type="submit" value="追加">
+      </label>
+    </form>
+    <button @click="hoge">hogehoge</button>
+    <div>
+      <todo-item v-for="(item, i) in todoList" :todo="item" @del="deleteItem(i)"></todo-item>
+    </div>
+  </div>
+  <script>
+    Vue.component("todo-item", {
+      props: ["todo"],
+      template: "<div><button @click='del'>✕</button> {{ formattedDate }} | {{ todo.text }}</div>",
+      computed: {
+        formattedDate() {
+          const d = this.todo.date
+          return `${d.getMonth()+1}月${d.getDate()}日 ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+        }
+      },
+      methods: {
+        del() {
+          this.$emit("del")
+        }
+      }
+    })
+    const app = new Vue({
+      el: "#app",
+      data: {
+        todoList: [
+          { date: new Date(), text: "起きる" },
+          { date: new Date(), text: "寝る" },
+          { date: new Date(), text: "スプラトゥーンする" },
+        ],
+        newItem: null,
+      },
+      methods: {
+        addNewItem() {
+          this.todoList.push({
+            date: new Date(),
+            text: this.newItem,
+          })
+          this.newItem = null
+        },
+        deleteItem(i) {
+          this.todoList.splice(i, 1)
+        },
+        hoge() {
+          this.todoList[0] = { date: new Date(), text: "hogehoge" }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
