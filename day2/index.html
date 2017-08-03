@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div v-for="(q, i) in questions">
+      {{ q.title }}
+    </div>
+  </div>
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        questions: [
+          { title: "最近いい感じですか？", answer: null },
+          { title: "最近楽しいですか？", answer: null },
+          { title: "最近いいことありましたか？", answer: null },
+          { title: "イカ好きですか？", answer: null },
+        ],
+      },
+    })
+  </script>
+</body>
+</html>

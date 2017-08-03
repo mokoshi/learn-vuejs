@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div v-for="(q, i) in questions">
+      {{ q.title }}
+      <answer-form
+        :selected-answer="q.answer"
+        @decide="ans => q.answer = ans"
+      ></answer-form>
+    </div>
+    <div>
+      {{ completedAnswers }} 件回答済み
+    </div>
+    <div v-if="isCompleted">
+      <button @click="sendAnswers">送信</button>
+    </div>
+  </div>
+  <script>
+    Vue.component("answer-form", {
+      props: [
+        "selectedAnswer"
+      ],
+      data() {
+        return {
+          answer: this.selectedAnswer || 3,
+        }
+      },
+      template: `
+<div>
+  <label><input v-model="answer" type="radio" value="1" :disabled="isAnswered">1: 全然</label>
+  <label><input v-model="answer" type="radio" value="2" :disabled="isAnswered">2: あんまり</label>
+  <label><input v-model="answer" type="radio" value="3" :disabled="isAnswered">3: ぼちぼち</label>
+  <label><input v-model="answer" type="radio" value="4" :disabled="isAnswered">4: まずまず</label>
+  <label><input v-model="answer" type="radio" value="5" :disabled="isAnswered">5: どちらかと言えば</label>
+  <button v-if="!isAnswered" @click="decide">決定</button>
+</div>
+`,
+      computed: {
+        isAnswered() {
+          return this.selectedAnswer !== null
+        }
+      },
+      methods: {
+        decide() {
+          this.$emit("decide", this.answer)
+        }
+      }
+    })
+    const app = new Vue({
+      el: "#app",
+      data: {
+        questions: [
+          { title: "最近いい感じですか？", answer: null },
+          { title: "最近楽しいですか？", answer: null },
+          { title: "最近いいことありましたか？", answer: 5 },
+          { title: "イカ好きですか？", answer: null },
+        ],
+      },
+      computed: {
+        completedAnswers() {
+          return this.questions.filter(i => i.answer !== null).length
+        },
+        isCompleted() {
+          return this.completedAnswers === this.questions.length
+        }
+      },
+      methods: {
+        sendAnswers() {
+          alert("ありがとう")
+        }
+      }
+    })
+  </script>
+</body>
+</html>
