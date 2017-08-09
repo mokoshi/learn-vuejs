@@ -6,11 +6,15 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        test: /\.vue$/,
+        loader: "vue-loader",
+      }
     ]
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js'
+      // vue: 'vue/dist/vue.js'
     }
   }
 };

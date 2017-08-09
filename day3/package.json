@@ -2,14 +2,16 @@
   "name": "day3",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
     "vue": "^2.4.2"
   },
   "devDependencies": {
+    "css-loader": "^0.28.4",
+    "vue-loader": "^13.0.4",
+    "vue-template-compiler": "^2.4.2",
     "webpack": "^3.5.1"
   }
 }

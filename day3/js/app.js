@@ -1,8 +1,8 @@
 import Vue from "vue"
+import App from "./components/App.vue"
 
-const vm = new Vue({
+const app = new Vue({
   el: "#app",
-  data: {
-    text: "world"
-  },
+  render: h => h(App),
 })
+
