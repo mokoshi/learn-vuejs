@@ -4,24 +4,47 @@ import App from "./components/App.vue"
 import Vuex from "vuex"
 Vue.use(Vuex)
 
+import $ from "jquery"
+
 const store = new Vuex.Store({
   state: {
-  },
-  getters: {
-    count2 (state) {
-      return state.count * 2
-    }
+    isLoading: false,
+    results: [],
   },
   mutations: {
-    increment (state) {
-      state.count++
+    setLoadingStatus (state, {status}) {
+      state.isLoading = status
+    },
+    updateResults (state, {response}) {
+      const titles = response[1]
+      const descs = response[2]
+      const urls = response[3]
+
+      state.results = titles.map((title, i) => {
+        return {
+          title,
+          description: descs[i],
+          url: urls[i],
+        }
+      })
     }
   },
   actions: {
-    asyncIncrement ({commit}) {
-      setTimeout(() => {
-        commit('increment')
-      }, 1000)
+    async search ({commit}, keyword) {
+      commit("setLoadingStatus", {status: true})
+
+      const response = await $.ajax({
+        url: "http://en.wikipedia.org/w/api.php",
+        dataType: "jsonp",
+        data: {
+          action: "opensearch",
+          format: "json",
+          search: keyword
+        }
+      })
+
+      commit("updateResults", {response})
+      commit("setLoadingStatus", {status: false})
     }
   },
 })
